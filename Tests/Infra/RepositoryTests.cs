@@ -2,6 +2,7 @@
 using Abc.Aids;
 using Abc.Data.Common;
 using Abc.Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Abc.Tests.Infra
@@ -13,12 +14,39 @@ namespace Abc.Tests.Infra
     where TObject : Entity<TData>
     where TData : PeriodData, new()
     {
-        private TData data;
+        protected TData data;
         protected TRepository obj;
+        protected DbContext db;
+        protected int count;
+        protected DbSet<TData> dbSet;
         public virtual void TestInitialize()
         {
             type = typeof(TRepository);
             data = GetRandom.Object<TData>();
+            count = GetRandom.UInt8(20, 40);
+            CleanDbSet();
+            AddItems();
+        }
+        protected void TestGetList()
+        {
+            obj.PageIndex = GetRandom.Int32(2, obj.TotalPages - 1);
+            var l = obj.Get().GetAwaiter().GetResult();
+            Assert.AreEqual(obj.PageSize, l.Count);
+        }
+
+        [TestCleanup]
+        public void TestCleanup() => CleanDbSet();
+        
+        protected void CleanDbSet()
+        {
+            foreach (var p in dbSet)
+                db.Entry(p).State = EntityState.Deleted;
+            db.SaveChanges();
+        }
+        protected void AddItems()
+        {
+            for (var i = 0; i < count; i++)
+                obj.Add(GetObject(GetRandom.Object<TData>())).GetAwaiter();
         }
         [TestMethod] public void IsSealed() => Assert.IsTrue(type.IsSealed);
 
@@ -29,8 +57,6 @@ namespace Abc.Tests.Infra
 
 
         [TestMethod] public void GetTest() => TestGetList();
-        
-    protected abstract void TestGetList();
 
         [TestMethod]
         public void GetByIdTest() => AddTest();
