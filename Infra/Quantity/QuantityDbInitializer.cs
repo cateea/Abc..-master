@@ -7,7 +7,7 @@ namespace Abc.Infra.Quantity
     public static class QuantityDbInitializer
     {
 
-        internal static MeasureData time = new MeasureData
+        internal static MeasureData time = new MeasureData 
         {
             Id = "Time",
             Name = "Time",
