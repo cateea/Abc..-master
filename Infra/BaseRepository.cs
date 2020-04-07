@@ -25,16 +25,16 @@ namespace Abc.Infra
         public virtual async Task<List<TDomain>> Get()
         {
             var query = CreateSqlQuery();
-            var set = await runSqlQueryAsync(query);
+            var set = await RunSqlQueryAsync(query);
 
-            return toDomainObjectsList(set);
+            return ToDomainObjectsList(set);
         }
 
-        internal List<TDomain> toDomainObjectsList(List<TData> set) => set.Select(toDomainObject).ToList();
+        internal List<TDomain> ToDomainObjectsList(List<TData> set) => set.Select(ToDomainObject).ToList();
 
-        protected internal abstract TDomain toDomainObject(TData periodData);
+        protected internal abstract TDomain ToDomainObject(TData periodData);
 
-        internal async Task<List<TData>> runSqlQueryAsync(IQueryable<TData> query) =>
+        internal async Task<List<TData>> RunSqlQueryAsync(IQueryable<TData> query) =>
             await query.AsNoTracking().ToListAsync();
 
         protected internal virtual IQueryable<TData> CreateSqlQuery()
@@ -48,20 +48,20 @@ namespace Abc.Infra
         {
             if (id is null) return new TDomain();
 
-            var d = await getData(id);
+            var d = await GetData(id);
 
-            var obj = new TDomain {Data = d};
+            var obj = ToDomainObject(d);
 
             return obj;
         }
 
-        protected abstract Task<TData> getData(string id);
+        protected abstract Task<TData> GetData(string id);
 
         public async Task Delete(string id)
         {
             if (id is null) return;
 
-            var v = await dbSet.FindAsync(id);
+            var v = await GetData(id);
 
             if (v is null) return;
             dbSet.Remove(v);
@@ -78,7 +78,7 @@ namespace Abc.Infra
         public async Task Update(TDomain obj)
         {
             if (obj is null) return;
-            var v = await dbSet.FindAsync(GetId(obj));
+            var v = await GetData(GetId(obj));
             if (v is null) return;
             dbSet.Remove(v);
             dbSet.Add(obj.Data);

@@ -19,29 +19,26 @@ namespace Abc.Infra {
 
         protected internal override IQueryable<TData> CreateSqlQuery() {
             var query = base.CreateSqlQuery();
-            query = addSorting(query);
+            query = AddSorting(query);
 
             return query;
         }
 
-        protected internal IQueryable<TData> addSorting(IQueryable<TData> query) {
-            var expression = createExpression();
+        protected internal IQueryable<TData> AddSorting(IQueryable<TData> query) {
+            var expression = CreateExpression();
 
-            var r = expression is null ? query : addOrderBy(query, expression);
+            var r = expression is null ? query : AddOrderBy(query, expression);
 
             return r;
         }
 
-        internal Expression<Func<TData, object>> createExpression() {
-            var property = findProperty();
+        internal Expression<Func<TData, object>> CreateExpression() {
+            var property = FindProperty();
 
-            return property is null ? null : lambdaExpression(property);
+            return property is null ? null : LambdaExpression(property);
         }
 
-
-
-
-        internal Expression<Func<TData, object>> lambdaExpression(PropertyInfo p) {
+        internal Expression<Func<TData, object>> LambdaExpression(PropertyInfo p) {
             var param = Expression.Parameter(typeof(TData), "x");
             var property = Expression.Property(param, p);
             var body = Expression.Convert(property, typeof(object));
@@ -49,28 +46,28 @@ namespace Abc.Infra {
             return Expression.Lambda<Func<TData, object>>(body, param);
         }
 
-        internal PropertyInfo findProperty() {
-            var name = getName();
+        internal PropertyInfo FindProperty() {
+            var name = GetName();
 
             return typeof(TData).GetProperty(name);
         }
 
-        internal string getName() {
+        internal string GetName() {
             if (string.IsNullOrEmpty(SortOrder)) return string.Empty;
             var idx = SortOrder.IndexOf(DescendingString, StringComparison.Ordinal);
 
             return idx > 0 ? SortOrder.Remove(idx) : SortOrder;
         }
 
-        internal IQueryable<TData> addOrderBy(IQueryable<TData> query, Expression<Func<TData, object>> e) {
+        internal IQueryable<TData> AddOrderBy(IQueryable<TData> query, Expression<Func<TData, object>> e) {
             if (query is null) return null;
             if (e is null) return query;
 
-            try { return isDescending() ? query.OrderByDescending(e) : query.OrderBy(e); }
+            try { return IsDescending() ? query.OrderByDescending(e) : query.OrderBy(e); }
             catch { return query; }
         }
 
-        internal bool isDescending() => !string.IsNullOrEmpty(SortOrder) && SortOrder.EndsWith(DescendingString);
+        internal bool IsDescending() => !string.IsNullOrEmpty(SortOrder) && SortOrder.EndsWith(DescendingString);
 
     }
 

@@ -7,7 +7,7 @@ namespace Abc.Infra.Quantity {
 
         public UnitsRepository(QuantityDbContext c) : base(c, c.Units) { }
 
-        protected internal override Unit toDomainObject(UnitData d) => new Unit(d);
+        protected internal override Unit ToDomainObject(UnitData d) => new Unit(d);
         
 
     }

@@ -19,9 +19,9 @@ namespace Abc.Tests.Infra
 
             public TestClass(DbContext c, DbSet<MeasureData> s) : base(c, s) { }
 
-            protected internal override Measure toDomainObject(MeasureData d) => new Measure(d);
+            protected internal override Measure ToDomainObject(MeasureData d) => new Measure(d);
 
-            protected override async Task<MeasureData> getData(string id)
+            protected override async Task<MeasureData> GetData(string id)
                 => await dbSet.FirstOrDefaultAsync(m => m.Id == id);
 
             protected override string GetId(Measure entity) => entity?.Data?.Id;

@@ -7,7 +7,7 @@ namespace Abc.Infra.Quantity {
 
         public MeasuresRepository(QuantityDbContext c) : base(c, c.Measures) { }
 
-        protected internal override Measure toDomainObject(MeasureData d) => new Measure(d);
+        protected internal override Measure ToDomainObject(MeasureData d) => new Measure(d);
 
     }
 
