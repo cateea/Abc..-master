@@ -13,7 +13,7 @@ namespace Abc.Facade.Quantity
             return  new UnitTerm(d);
         }
 
-        internal static UnitTermView Create(UnitTerm obj)
+        public static UnitTermView Create(UnitTerm obj)
         {
             var v = new UnitTermView();
             Copy.Members(obj.Data, v);

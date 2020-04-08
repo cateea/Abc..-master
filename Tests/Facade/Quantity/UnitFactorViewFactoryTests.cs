@@ -13,7 +13,7 @@ namespace Abc.Tests.Facade.Quantity
         [TestInitialize]
         public virtual void TestInitialize()
         {
-            type = typeof(UnitFactorViewFactrory);
+            type = typeof(UnitFactorViewFactory);
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace Abc.Tests.Facade.Quantity
         public void CreateObjectTest()
         {
             var view = GetRandom.Object<UnitFactorView>();
-            var data = UnitFactorViewFactrory.Create(view).Data;
+            var data = UnitFactorViewFactory.Create(view).Data;
 
             testArePropertyValuesEqual(view, data);
 
@@ -33,7 +33,7 @@ namespace Abc.Tests.Facade.Quantity
         public void CreateViewTest()
         {
             var data = GetRandom.Object<UnitFactorData>();
-            var view = UnitFactorViewFactrory.Create(new UnitFactor(data));
+            var view = UnitFactorViewFactory.Create(new UnitFactor(data));
 
             testArePropertyValuesEqual(view, data);
 

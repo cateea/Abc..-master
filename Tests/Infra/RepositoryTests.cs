@@ -27,7 +27,7 @@ namespace Abc.Tests.Infra
             CleanDbSet();
             AddItems();
         }
-        protected void TestGetList()
+        protected virtual void TestGetList()
         {
             obj.PageIndex = GetRandom.Int32(2, obj.TotalPages - 1);
             var l = obj.Get().GetAwaiter().GetResult();

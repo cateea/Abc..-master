@@ -4,16 +4,16 @@ using Abc.Domain.Quantity;
 
 namespace Abc.Facade.Quantity
 {
-   public static class UnitFactorViewFactrory
+   public static class UnitFactorViewFactory
     {
-        internal static UnitFactor Create(UnitFactorView view)
+       public static UnitFactor Create(UnitFactorView view)
         {
             var d = new UnitFactorData();
             Copy.Members(view, d);
             return new UnitFactor(d);
         }
 
-        internal static UnitFactorView Create(UnitFactor obj)
+        public static UnitFactorView Create(UnitFactor obj)
         {
             var v = new UnitFactorView();
             Copy.Members(obj.Data, v);
