@@ -37,7 +37,7 @@ namespace Abc.Soft
             services.AddScoped<IUnitTermsRepository, UnitTermsRepository>();
             services.AddScoped<IMeasureTermRepository, MeasureTermsRepository>();
             services.AddScoped<ISystemsOfUnitsRepository, SystemsOfUnitsRepository>();
-            services.AddScoped<IMeasureTermRepository, MeasureTermsRepository>();
+            services.AddScoped<IUnitFactorsRepository, UnitFactorsRepository>();
             services.AddServerSideBlazor();
 
         }

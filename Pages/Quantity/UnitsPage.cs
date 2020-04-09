@@ -10,10 +10,10 @@ namespace Abc.Pages.Quantity {
 
         protected internal UnitsPage(IUnitsRepository r, IMeasuresRepository m) : base(r) {
             PageTitle = "Units";
-            Measures = createMeasures(m);
+            Measures = CreateMeasures(m);
         }
 
-        private static IEnumerable<SelectListItem> createMeasures(IMeasuresRepository r)
+        private static IEnumerable<SelectListItem> CreateMeasures(IMeasuresRepository r)
         {
             var list = new List<SelectListItem>();
             var measures = r.Get().GetAwaiter().GetResult();
