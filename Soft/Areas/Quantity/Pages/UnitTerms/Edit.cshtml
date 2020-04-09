@@ -7,7 +7,6 @@
 }
 
 <body>
-    <input type="hidden" asp-for="Item.Id" />
     @Html.EditControlsFor(m => m.Item.MasterId)
     @Html.EditControlsFor(m => m.Item.TermId)
     @Html.EditControlsFor(m => m.Item.Power)
